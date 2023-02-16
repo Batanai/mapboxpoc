@@ -1,0 +1,47 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext {
+        buildToolsVersion = "33.0.0"
+        minSdkVersion = 21
+        compileSdkVersion = 33
+        targetSdkVersion = 33
+
+        // We use NDK 23 which has both M1 support and is the side-by-side NDK version from AGP.
+        ndkVersion = "23.1.7779620"
+        RNMapboxMapsImpl = "mapbox" // required for v10
+        // RNMapboxMapsImpl = "maplibre" // optional - as this is the default
+
+        // RNMapboxMapsLibs = { // optional - only required if you want to customize it
+        //     implementation ("org.maplibre.gl:android-sdk:9.5.2")
+        //     implementation ("org.maplibre.gl:android-sdk-turf:5.9.0")
+
+        //     implementation ("org.maplibre.gl:android-plugin-localization-v9:1.0.0")
+        //     implementation ("org.maplibre.gl:android-plugin-annotation-v9:1.0.0")
+        //     implementation ("org.maplibre.gl:android-plugin-markerview-v9:1.0.0")
+        // }
+    }
+    repositories {
+         maven {
+            url 'https://api.mapbox.com/downloads/v2/releases/maven'
+            authentication {
+                basic(BasicAuthentication)
+            }
+            credentials {
+                // Do not change the username below.
+                // This should always be `mapbox` (not your username).
+                username = 'mapbox'
+                // Use the secret token you stored in gradle.properties as the password
+                password = project.properties['MAPBOX_DOWNLOADS_TOKEN'] ?: ""
+            }
+        }
+
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath('com.android.tools.build:gradle:7.4.1')
+        classpath("com.facebook.react:react-native-gradle-plugin")
+        classpath("com.mapbox.maps:android:10.11.0")
+    }
+}
